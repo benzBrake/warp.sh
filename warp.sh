@@ -40,7 +40,14 @@ FontColor_Purple="\033[35m"
 FontColor_Purple_Bold="\033[1;35m"
 FontColor_Suffix="\033[0m"
 
-export WARP_INSTALL_MIRROR="${MIRROR}"
+if [ -n "${MIRROR}" ]; then
+  last_char="${MIRROR: -1}"  # Get the last character of the MIRROR variable
+  if [ "${last_char}" != "/" ]; then
+    export WARP_INSTALL_MIRROR="${MIRROR}/"
+  else
+    export WARP_INSTALL_MIRROR="${MIRROR}"
+  fi
+fi
 
 log() {
     local LEVEL="$1"
@@ -306,7 +313,7 @@ Print_Delimiter() {
 }
 
 Install_wgcf() {
-    curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wgcf.sh" | bash
+    curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wgcf.sh" | bash -x
 }
 
 Uninstall_wgcf() {
@@ -427,11 +434,11 @@ Install_WireGuardTools() {
 Install_WireGuardGo() {
     case ${SysInfo_Virt} in
     openvz | lxc*)
-        curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash
+        curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash -x
         ;;
     *)
         if [[ ${SysInfo_Kernel_Ver_major} -lt 5 || ${SysInfo_Kernel_Ver_minor} -lt 6 ]]; then
-            curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash
+            curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash -x
         fi
         ;;
     esac
