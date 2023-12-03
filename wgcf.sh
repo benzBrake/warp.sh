@@ -75,7 +75,7 @@ DOWNLOAD_URL=$(curl -fsSL ${GH_API_URL} | grep 'browser_download_url' | cut -d'"
 echo -e "${INFO} Download URL: ${DOWNLOAD_URL}"
 
 echo -e "${INFO} Installing ${PROJECT_NAME} ..."
-curl -LS "${DOWNLOAD_URL}" -o ${BIN_FILE}
+curl -LS "${WARP_INSTALL_MIRROR}${DOWNLOAD_URL}" -o ${BIN_FILE}
 chmod +x ${BIN_FILE}
 if [[ ! $(echo ${PATH} | grep ${BIN_DIR}) ]]; then
     ln -sf ${BIN_FILE} /usr/bin/${BIN_NAME}
