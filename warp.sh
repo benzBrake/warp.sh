@@ -40,6 +40,8 @@ FontColor_Purple="\033[35m"
 FontColor_Purple_Bold="\033[1;35m"
 FontColor_Suffix="\033[0m"
 
+export WARP_INSTALL_MIRROR="${MIRROR}"
+
 log() {
     local LEVEL="$1"
     local MSG="$2"
@@ -304,7 +306,7 @@ Print_Delimiter() {
 }
 
 Install_wgcf() {
-    curl -fsSL git.io/wgcf.sh | bash
+    curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wgcf.sh" | bash
 }
 
 Uninstall_wgcf() {
@@ -425,11 +427,11 @@ Install_WireGuardTools() {
 Install_WireGuardGo() {
     case ${SysInfo_Virt} in
     openvz | lxc*)
-        curl -fsSL git.io/wireguard-go.sh | bash
+        curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash
         ;;
     *)
         if [[ ${SysInfo_Kernel_Ver_major} -lt 5 || ${SysInfo_Kernel_Ver_minor} -lt 6 ]]; then
-            curl -fsSL git.io/wireguard-go.sh | bash
+            curl -fsSL "${WARP_INSTALL_MIRROR}https://github.com/benzBrake/warp.sh/raw/main/wireguard-go.sh" | bash
         fi
         ;;
     esac
@@ -1145,7 +1147,7 @@ Print_Usage() {
 Cloudflare WARP Installer [${shVersion}]
 
 USAGE:
-    bash <(curl -fsSL git.io/warp.sh) [SUBCOMMAND]
+    bash <(curl -fsSL https://github.com/benzBrake/warp.sh/raw/main/warp.sh) [SUBCOMMAND]
 
 SUBCOMMANDS:
     install         Install Cloudflare WARP Official Linux Client
